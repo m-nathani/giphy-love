@@ -1,0 +1,44 @@
+{
+  "env": {
+    "browser": true
+  },
+  "extends": "airbnb-base",
+  "parser": "babel-eslint",
+  "plugins": [
+    "react"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "no-param-reassign": [
+      "error",
+      {
+        "props": false
+      }
+    ],
+    "new-cap": [
+      "error",
+      {
+        "properties": false
+      }
+    ],
+    "max-len": ["error", 120],
+    "no-underscore-dangle": ["error", { "allow": ["__INITIAL_STATE__"] }],
+    "react/jsx-uses-react": "warn",
+    "react/jsx-uses-vars": "warn",
+    "import/extensions": 0,
+    "import/no-unresolved": "error"
+  },
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "webpack.config.js"
+      }
+    }
+  }
+}
