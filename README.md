@@ -1,6 +1,9 @@
 # Giphy Love
 > For the love for giphs.
 
+## Pre-requisite
+  node expected version: "^6.14.0 || ^8.10.0 || >=9.10.0".
+
 ## Setup
 ```bash
   # clone the repository

@@ -7,43 +7,45 @@ let baseConfig = require('./base');
 let defaultSettings = require('./defaults');
 
 // Add needed plugins here
-let BowerWebpackPlugin = require('bower-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 let config = Object.assign({}, baseConfig, {
   entry: [
-    path.join(__dirname, '../src/app/index.js'),
+    path.join(__dirname, '../src/index.js'),
     'bootstrap-loader',
   ],
   cache: false,
-  devtool: 'sourcemap',
+  devtool: 'source-map',
   plugins: [
-    new webpack.optimize.DedupePlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"production"'
     }),
-    new BowerWebpackPlugin({
-      searchResolveModulesDirectories: false
-    }),
     new webpack.optimize.UglifyJsPlugin(),
-    new webpack.optimize.OccurenceOrderPlugin(),
+    // new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
-    new webpack.NoErrorsPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new ExtractTextPlugin({
+      filename: '[name].[contenthash].css',
+    }),
+
   ],
   module: defaultSettings.getDefaultModules(),
 });
 
 // Add needed loaders to the defaults here
-config.module.loaders.push({
+config.module.rules.push({
   test: /\.(js|jsx)$/,
-  loader: 'babel',
-  query: {
-    presets: ['es2015']
-  },
+  use: [
+    {
+      loader: 'babel-loader',
+      options: {
+        presets: ['es2015']
+      }
+  }],
   exclude: [/conf/, /controller/, /middleware/, /endpoint/, /service/],
-  include: [].concat(
-    config.additionalPaths,
-    [path.join(__dirname, '/../src/')]
-  ),
+  include: [
+    path.join(__dirname, '/../src/')
+  ],
 });
 
 module.exports = config;

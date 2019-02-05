@@ -1,46 +1,61 @@
-// uncomment the following line if you want to use `normalizr`
-// import { Schema, arrayOf, normalize } from 'normalizr';
+import axios from 'axios';
+import config from 'config';
+import {
+  FETCH_GIPHY_DATA, FETCH_GIPHY_DATA_SUCCESS, FETCH_GIPHY_DATA_FAIL,
+  UPDATE_SEARCH_TERM, TOGGLE_SHOW_PROFILE, FETCH_GIPHY_LOAD_MORE,
+} from 'constant';
 
-// import { CALL_API } from 'redux-api-middleware';
-// import config from 'config';
-// import { REQUEST, FAILURE, SUCCESS} from 'constant/types';
+export const toggleShowProfile = () => ({
+  type: TOGGLE_SHOW_PROFILE,
+});
 
-// okay, so redux doesn't like nested json, so there is this module called `normalizr`,
-// it flattens the json schema according to the provided `schema` which would be something
-// like this:
-/*
- const articleSchema = new Schema('articles', {
-  vendor: new Schema('vendor', {
-    idAttribute: '_id'
-  }),
-  idAttribute: '_id'
- });
-*/
+export const updateSearchTerm = value => ({
+  type: UPDATE_SEARCH_TERM,
+  searchTerm: value,
+});
 
-export default function action() {
-  return {
-    /*
-    [CALL_API]: {
-      endpoint: `${config.apiUrl}/path/to/api`,
-      method: 'GET',
-      types: [
-        REQUEST,
-        {
-          type: SUCCESS,
-          payload: (action, state, response) => {
-            const contentType = response.headers.get('Content-Type');
-            if (contentType && ~contentType.indexOf('json')) {
-              // remove line below along with the schema in the beginning to use normalizr
-              // return response.json().then(
-              //  (json) => normalize(json.result, arrayOf(articleSchema))
-              // );
-              return response.json();
-            }
-          }
-        },
-        FAILURE
-      ]
-    }
-    */
-  };
-}
+export const fetchGiphyDataFail = err => ({
+  type: FETCH_GIPHY_DATA_FAIL,
+  error: true,
+  message: err,
+});
+
+export const fetchGiphyDataSuccess = (data, stateData = []) => ({
+  type: FETCH_GIPHY_DATA_SUCCESS,
+  data: [...stateData, ...data.data],
+  offset: data.pagination.offset,
+  hasMore: data.pagination.total_count - data.pagination.count > 0, // there are more result pages
+  loadedAll: data.pagination.total_count < data.pagination.offset, // there are no more load more result pages
+  pagination: data.pagination,
+});
+
+export const loadMoreGiphyData = () => (dispatch, getState) => {
+  const state = getState().root;
+  const {
+    data, searchTerm, hasMore, loadedAll,
+  } = state;
+  let { offset } = state;
+  if (hasMore && !loadedAll) {
+    offset += state.itemsPerPage;
+    dispatch({ type: FETCH_GIPHY_LOAD_MORE, error: false });
+    axios.get(`${config.apiUrl}?api_key=${config.apiKey}&q=${searchTerm}&offset=${offset}`)
+      .then((response) => {
+      // dispatch to add to the previous result to current.
+        dispatch(fetchGiphyDataSuccess(response.data, data));
+      })
+      .catch(error => dispatch(fetchGiphyDataFail(error)));
+  }
+};
+
+export const fetchGighyData = () => (dispatch, getState) => {
+  const state = getState().root;
+  // make a request only if search term has been entered
+  if (state.searchTerm) {
+    dispatch({ type: FETCH_GIPHY_DATA, error: false });
+    axios.get(`${config.apiUrl}?api_key=${config.apiKey}&q=${state.searchTerm}&offset=${0}`)
+      .then((response) => {
+        dispatch(fetchGiphyDataSuccess(response.data, []));
+      })
+      .catch(error => dispatch(fetchGiphyDataFail(error)));
+  }
+};

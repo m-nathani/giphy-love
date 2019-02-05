@@ -1,12 +1,16 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
 import * as RootActions from 'action/root';
-import Listing from 'component/Listing';
+import Gallery from 'component/Gallery';
+import Header from 'component/Header';
+import Footer from 'component/Footer';
+import {
+  Divider, Segment,
+} from 'semantic-ui-react';
 
 function mapStateToProps(state) {
-  return { text: state.root.text };
+  return state;
 }
 function mapDispatchToProps(dispatch) {
   return { actions: bindActionCreators(RootActions, dispatch) };
@@ -14,15 +18,17 @@ function mapDispatchToProps(dispatch) {
 
 class Root extends Component {
   render() {
-    const { text } = this.props;
+    const { root, actions } = this.props;
     return (
-      <Listing text={text}/>
+      <Segment basic textAlign='center'>
+          <Header actions={actions} searchTerm={root.searchTerm} showProfile={root.showProfile}
+                  isLoading={root.isLoading} />
+          <Divider horizontal />
+          <Gallery actions={actions} {...root} />
+          <Footer />
+      </Segment>
     );
   }
 }
-
-Root.propTypes = {
-  actions: PropTypes.object.isRequired,
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Root);

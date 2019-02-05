@@ -7,12 +7,9 @@ let defaultSettings = require('./defaults');
 // @example:
 // let npmBase = path.join(__dirname, '../node_modules');
 // let additionalPaths = [ path.join(npmBase, 'react-bootstrap') ];
-let additionalPaths = [];
+//  let additionalPaths = [];
 
 module.exports = {
-  additionalPaths: additionalPaths,
-  port: defaultSettings.port,
-  debug: true,
   devtool: 'eval',
   output: {
     path: path.join(__dirname, '/../dist/assets'),
@@ -20,10 +17,12 @@ module.exports = {
     publicPath: `.${defaultSettings.publicPath}`
   },
   devServer: {
-    contentBase: './src/',
+    contentBase: defaultSettings.srcPath,
     historyApiFallback: true,
-    color: true,
     hot: true,
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    },
     progress: true,
     inline: true,
     port: defaultSettings.port,
@@ -31,7 +30,7 @@ module.exports = {
     noInfo: false
   },
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: [".js", ".json", ".jsx", ".css"],
     alias: {
       action: `${defaultSettings.srcPath}/action/`,
       app: `${defaultSettings.srcPath}/app/`,
@@ -40,6 +39,7 @@ module.exports = {
       container: `${defaultSettings.srcPath}/container/`,
       reducer: `${defaultSettings.srcPath}/reducer/`,
       styles: `${defaultSettings.srcPath}/styles/`,
+      images: `${defaultSettings.srcPath}/images/`,
       config: `${defaultSettings.srcPath}/config/` + process.env.REACT_WEBPACK_ENV
     }
   },

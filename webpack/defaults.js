@@ -7,6 +7,7 @@
 'use strict';
 
 const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const srcPath = path.join(__dirname, '/../src');
 const defaultPort = 8000;
 
@@ -16,25 +17,50 @@ const defaultPort = 8000;
  */
 function getDefaultModules() {
   return {
-    preLoaders: [
+    rules: [
       {
+        enforce: "pre",
         test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
         include: srcPath,
-        loader: 'eslint-loader'
-      }
-    ],
-    loaders: [
-      {
-        test: /\.scss/,
-        loader: 'style-loader!css-loader?modules=true&localIdentName=[name]__[local]___[hash:base64:5]!sass-loader?outputStyle=expanded'
+        use: "eslint-loader"
       },
       {
-        test: /\.(png|jpg|gif|woff|woff2)$/,
-        loader: 'url-loader?limit=8192'
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+        test: /\.(scss|sass)$/,
+        use: [
+            "style-loader",
+            "css-loader",
+            "sass-loader"
+        ]
+      },
+      {
+        test: /\.less$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader', 'less-loader']
+        }),
+      },
+      {
+        test: /\.jpe?g$|\.gif$|\.ico$|\.png$|\.svg$/,
+        use: 'file-loader?name=[name].[ext]?[hash]'
+      },
+      // the following 3 rules handle font extraction
+      {
+        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'url-loader?limit=10000&mimetype=application/font-woff'
+      },
+      
+      {
+        test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         loader: 'file-loader'
+      },
+      {
+      test: /\.otf(\?.*)?$/,
+      use: 'file-loader?name=/fonts/[name].  [ext]&mimetype=application/font-otf'
       }
     ],
   };
