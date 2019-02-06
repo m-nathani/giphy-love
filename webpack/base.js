@@ -23,6 +23,7 @@ module.exports = {
     headers: {
       'Access-Control-Allow-Origin': '*'
     },
+    disableHostCheck: true,
     progress: true,
     inline: true,
     port: defaultSettings.port,

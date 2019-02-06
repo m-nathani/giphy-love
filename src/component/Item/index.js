@@ -24,7 +24,7 @@ export default class Item extends React.Component {
     const { imgloading } = this.state;
     return (
       <div>
-          <Card>
+          <Card as='a' href={data.embed_url} target="_blank" >
               {imgloading ? (
                 <Placeholder>
                   <Placeholder.Image as='img' onLoad={this.loadImage} src={data.images.fixed_width.url} square />

@@ -5,13 +5,13 @@ const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const config = require('./webpack.config');
 const open = require('open');
-
+const giphyPort = process.env.PORT || config.devServer.port
 new WebpackDevServer(webpack(config), config.devServer)
-  .listen(config.devServer.port, 'localhost', (err) => {
+  .listen(giphyPort, (err) => {
     if (err) {
       console.log(err);
     }
-    console.log('Listening at localhost:' + config.devServer.port);
+    console.log('Listening at :' + giphyPort);
     console.log('Opening your system browser...');
-    open('http://localhost:' + config.devServer.port + '/webpack-dev-server/');
+    // open('http://localhost:' + giphyPort + '/webpack-dev-server/');
   });

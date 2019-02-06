@@ -1,8 +1,12 @@
 # Giphy Love
 > For the love for giphs.
 
+## Run the simple demo
+```
+https://aqueous-dusk-18245.herokuapp.com/
+```
 ## Pre-requisite
-  node expected version: "^6.14.0 || ^8.10.0 || >=9.10.0".
+  node expected version: `"^6.14.0 || ^8.10.0 || >=9.10.0"`.
 
 ## Setup
 ```bash
