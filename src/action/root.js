@@ -1,8 +1,8 @@
 import axios from 'axios';
 import config from 'config';
 import {
-  FETCH_GIPHY_DATA, FETCH_GIPHY_DATA_SUCCESS, FETCH_GIPHY_DATA_FAIL,
-  UPDATE_SEARCH_TERM, TOGGLE_SHOW_PROFILE, FETCH_GIPHY_LOAD_MORE,
+  FETCH_GIPHY_DATA, FETCH_GIPHY_DATA_SUCCESS, FETCH_GIPHY_DATA_FAIL, UPDATE_SEARCH_TERM, TOGGLE_SHOW_PROFILE,
+  FETCH_GIPHY_LOAD_MORE, ADD_TO_FAVORITES, REMOVE_FROM_FAVORITES, SET_GIPHY_LANGUAGE, SET_GIPHY_RATING,
 } from 'constant';
 
 export const toggleShowProfile = () => ({
@@ -38,7 +38,9 @@ export const loadMoreGiphyData = () => (dispatch, getState) => {
   if (hasMore && !loadedAll) {
     offset += state.itemsPerPage;
     dispatch({ type: FETCH_GIPHY_LOAD_MORE, error: false });
-    axios.get(`${config.apiUrl}?api_key=${config.apiKey}&q=${searchTerm}&offset=${offset}`)
+    let url = `${config.apiUrl}?api_key=${config.apiKey}&q=${searchTerm}&offset=${offset}&lang=${state.language}`;
+    if (state.rating !== 'all') url += `&rating=${state.rating}`;
+    axios.get(url)
       .then((response) => {
       // dispatch to add to the previous result to current.
         dispatch(fetchGiphyDataSuccess(response.data, data));
@@ -52,10 +54,32 @@ export const fetchGighyData = () => (dispatch, getState) => {
   // make a request only if search term has been entered
   if (state.searchTerm) {
     dispatch({ type: FETCH_GIPHY_DATA, error: false });
-    axios.get(`${config.apiUrl}?api_key=${config.apiKey}&q=${state.searchTerm}&offset=${0}`)
+    let url = `${config.apiUrl}?api_key=${config.apiKey}&q=${state.searchTerm}&offset=${0}&lang=${state.language}`;
+    if (state.rating !== 'all') url += `&rating=${state.rating}`;
+    axios.get(url)
       .then((response) => {
         dispatch(fetchGiphyDataSuccess(response.data, []));
       })
       .catch(error => dispatch(fetchGiphyDataFail(error)));
   }
 };
+
+export const addToFavorites = prop => ({
+  type: ADD_TO_FAVORITES,
+  item: prop,
+});
+
+export const removeFromFavorites = props => ({
+  type: REMOVE_FROM_FAVORITES,
+  item: props,
+});
+
+export const setLanguage = value => ({
+  type: SET_GIPHY_LANGUAGE,
+  language: value,
+});
+
+export const setRating = value => ({
+  type: SET_GIPHY_RATING,
+  rating: value,
+});

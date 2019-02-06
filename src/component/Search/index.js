@@ -20,7 +20,6 @@ export default class Search extends React.Component {
                   onKeyPress={(e) => { if (e.key === 'Enter') actions.fetchGighyData(); }}
                   icon='search' iconPosition='left'
                   action={{
-                    primary: true,
                     content: 'Search',
                     onClick: actions.fetchGighyData,
                     tabIndex: '1',

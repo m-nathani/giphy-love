@@ -13,8 +13,9 @@ export default class Gallery extends React.Component {
   }
 
   renderSearching() {
+    const { searchTerm, isFavoriteRoute } = this.props;
     return (
-      <Searching searchTerm={this.props.searchTerm} />
+      <Searching searchTerm={searchTerm} isFavoriteRoute={isFavoriteRoute} />
     );
   }
 
@@ -25,7 +26,10 @@ export default class Gallery extends React.Component {
   }
 
   renderGallery() {
-    const { isLoading, data, actions } = this.props;
+    const {
+      isLoading, data, actions, favorites, isFavoriteRoute,
+    } = this.props;
+    const result = isFavoriteRoute ? favorites : data;
     return (
       <MasonryLayout
         id="masonry-layout"
@@ -46,9 +50,10 @@ export default class Gallery extends React.Component {
           { mq: '3200', columns: 17, gutter: 25 },
           { mq: '4000', columns: 21, gutter: 25 },
         ]}
+        infiniteScrollDisabled={isFavoriteRoute}
         infiniteScrollLoading={isLoading}
         infiniteScroll={actions.loadMoreGiphyData} >
-        {data.map((item, i) => (
+        {result.map((item, i) => (
             <Segment.Inline
               key={i}
               style={{
@@ -58,7 +63,7 @@ export default class Gallery extends React.Component {
                 color: 'white',
                 display: 'block',
               }}>
-              <Item actions={actions} data={item}/>
+              <Item actions={actions} data={item} isFavorite={favorites.some(fav => (fav.id === item.id))}/>
             </Segment.Inline>
         ))}
       </MasonryLayout>

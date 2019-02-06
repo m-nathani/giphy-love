@@ -36,9 +36,6 @@ config.module.rules.push({
   use: [
     {
       loader: 'babel-loader',
-      options: {
-        presets: ['es2015']
-      }
   }],
   exclude: [/conf/, /controller/, /middleware/, /endpoint/, /service/],
   include: [

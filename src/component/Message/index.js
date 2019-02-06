@@ -14,13 +14,13 @@ export const NoResult = props => (
   </Segment>
 );
 
-export const Searching = () => (
+export const Searching = props => (
   <Segment textAlign="left">
     <Message
       floating={true}
       info={true}
       icon="heartbeat"
-      header="Please Search !"
+      header= {props.isFavoriteRoute ? 'No Favorite Love Found :)' : 'Please Search !'}
       content='We are fetching that content for you, keep on the Search for the Love of Giphs!'
     />
     <Image src="images/search.gif"/>

@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "For the love of giphs",
   "scripts": {
-    "copy": "copyfiles -f ./src/ ./dist",
+    "copy": "copyfiles -f ./src/favicon.ico ./dist",
     "build": "npm run copy && webpack --env=dist",
     "start": "node server.js --env=dev",
     "serve": "node server.js --env=dist",
@@ -13,7 +13,9 @@
   },
   "author": "Murtaza Nathani <mudza100@gmail.com>",
   "license": "MIT",
-  "engines": { "node" : "^6.14.0 || ^8.10.0 || >=9.10.0" },
+  "engines": {
+    "node": "^6.14.0 || ^8.10.0 || >=9.10.0"
+  },
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap-sass": "^3.4.0",
@@ -24,8 +26,8 @@
     "react-masonry-layout": "0.4.0",
     "react-redux": "6.0.0",
     "react-router": "3.2.0",
-    "redux": "4.0.1",
     "react-router-redux": "4.0.8",
+    "redux": "4.0.1",
     "redux-api-middleware": "3.0.1",
     "redux-thunk": "^2.3.0",
     "redux-undo": "0.6.1",

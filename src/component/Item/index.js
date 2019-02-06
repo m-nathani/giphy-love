@@ -1,7 +1,7 @@
 import './item.scss';
 import React, { Fragment } from 'react';
 import {
-  Card, Icon, Image, Placeholder, Rating,
+  Card, Icon, Image, Placeholder,
 } from 'semantic-ui-react';
 import moment from 'moment';
 
@@ -20,17 +20,18 @@ export default class Item extends React.Component {
   }
 
   render() {
-    const { isFavorited, data } = this.props;
+    const { isFavorite, data, actions } = this.props;
     const { imgloading } = this.state;
     return (
       <div>
-          <Card as='a' href={data.embed_url} target="_blank" >
+          <Card >
               {imgloading ? (
                 <Placeholder>
                   <Placeholder.Image as='img' onLoad={this.loadImage} src={data.images.fixed_width.url} square />
                 </Placeholder>
               ) : (
-                <Image key={data.id} src={data.images.fixed_width.url} alt={data.title} />
+                <Image as='a' href={data.embed_url} target="_blank" key={data.id}
+                       src={data.images.fixed_width.url} alt={data.title} />
               )}
             <Card.Content>
               {imgloading ? (
@@ -56,8 +57,9 @@ export default class Item extends React.Component {
               )}
             </Card.Content>
             <Card.Content extra>
-              <a>Favorite <Rating onClick={ isFavorited ? () => this.props.removeFromFavorites(data)
-                : () => this.props.addToFavorites(data) } icon='heart' defaultRating={0} maxRating={5} />
+              <a><Icon onClick={ isFavorite ? () => actions.removeFromFavorites(data)
+                : () => { actions.addToFavorites(data); } } color="red" size="large"
+                      name={isFavorite ? 'heart' : 'heart outline'} />
               </a>
             </Card.Content>
           </Card>
