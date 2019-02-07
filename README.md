@@ -2,9 +2,8 @@
 > For the love for giphs.
 
 ## Run the simple demo
-```
 https://giphy-love.herokuapp.com/
-```
+
 ## Pre-requisite
   node expected version: `"^6.14.0 || ^8.10.0 || >=9.10.0"`.
 
