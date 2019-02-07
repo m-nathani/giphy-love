@@ -10,7 +10,6 @@ let defaultSettings = require('./defaults');
 //  let additionalPaths = [];
 
 module.exports = {
-  devtool: 'eval',
   output: {
     path: path.join(__dirname, '/../dist/assets'),
     filename: 'app.js',
@@ -24,6 +23,7 @@ module.exports = {
       'Access-Control-Allow-Origin': '*'
     },
     disableHostCheck: true,
+    compress: true,
     progress: true,
     inline: true,
     port: defaultSettings.port,

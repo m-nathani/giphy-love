@@ -3,7 +3,6 @@ import React, { Fragment } from 'react';
 import {
   Card, Icon, Image, Placeholder,
 } from 'semantic-ui-react';
-import moment from 'moment';
 
 export default class Item extends React.Component {
   constructor(props) {
@@ -47,12 +46,6 @@ export default class Item extends React.Component {
               ) : (
                 <Fragment>
                   <Card.Header className="itemHeader">{data.title}</Card.Header>
-                  <Card.Meta>
-                    <span className='date'>{moment(data.import_datetime).format('MMMM Do YYYY')}</span>
-                  </Card.Meta>
-                  <Card.Description>
-                      <Icon name="registered outline" />Rating: {data.rating}
-                  </Card.Description>
                 </Fragment>
               )}
             </Card.Content>

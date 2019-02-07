@@ -6,6 +6,7 @@ const WebpackDevServer = require('webpack-dev-server');
 const config = require('./webpack.config');
 const open = require('open');
 const giphyPort = process.env.PORT || config.devServer.port
+
 new WebpackDevServer(webpack(config), config.devServer)
   .listen(giphyPort, (err) => {
     if (err) {

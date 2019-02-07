@@ -59,8 +59,8 @@ function getDefaultModules() {
         loader: 'file-loader'
       },
       {
-      test: /\.otf(\?.*)?$/,
-      use: 'file-loader?name=/fonts/[name].  [ext]&mimetype=application/font-otf'
+        test: /\.otf(\?.*)?$/,
+        use: 'file-loader?name=/fonts/[name].  [ext]&mimetype=application/font-otf'
       }
     ],
   };
