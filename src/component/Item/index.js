@@ -53,7 +53,7 @@ export default class Item extends React.Component {
           && <Button onClick={() => this.copyToClipboard(data.embed_url)} icon="copy" label="Copy Link" />
         }
         <Transition.Group animation="drop" duration={500}>
-            {this.state.copy && <Message size="mini" info header={'Copeid!'} size='small' />}
+            {this.state.copy && <Message size="mini" info header={'Copied!'} size='small' />}
         </Transition.Group>
       </Grid.Column>
     </Grid>
@@ -76,10 +76,13 @@ export default class Item extends React.Component {
             <Image href={data.embed_url} target="_blank" key={data.id}
                   src={data.images.fixed_width.url} alt={data.title} />
           )}
-        <Card.Content color="blue" extra>
-          <Icon onClick={ isFavorite ? () => actions.removeFromFavorites(data)
-            : () => { actions.addToFavorites(data); } } color="red" size="large"
-                  name={isFavorite ? 'heart' : 'heart outline'} />
+        <Card.Content color="blue" extra style={isFavorite ? { padding: '3.5px' } : {}} >
+          {
+            isFavorite ? <Image size="mini" src="images/favorite.gif"
+                                onClick={ () => actions.removeFromFavorites(data)} />
+              : <Icon onClick={ () => { actions.addToFavorites(data); } } color="red" size="large"
+                      name={'heart outline'} />
+          }
         </Card.Content>
       </Card>
     );

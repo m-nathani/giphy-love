@@ -10,6 +10,7 @@ export default class Gallery extends React.Component {
     this.renderNoResult = this.renderNoResult.bind(this);
     this.renderGallery = this.renderGallery.bind(this);
     this.renderSearching = this.renderSearching.bind(this);
+    this.renderFavorite = this.renderFavorite.bind(this);
   }
 
   renderSearching() {
@@ -70,12 +71,22 @@ export default class Gallery extends React.Component {
     );
   }
 
+  renderFavorite() {
+    const { favorites } = this.props;
+    return (
+      favorites.length === 0 ? this.renderSearching() : this.renderGallery()
+    );
+  }
+
   render() {
-    const { isLoading, noSearchResult, initial } = this.props;
+    const {
+      isLoading, noSearchResult, initial, isFavoriteRoute,
+    } = this.props;
     return (
       <Segment padded style={{ alignItems: 'center' }} textAlign='center' placeholder loading={isLoading}>
         { // eslint-disable-next-line
-          initial ? this.renderSearching() : noSearchResult ? this.renderNoResult() : this.renderGallery()
+          isFavoriteRoute ? this.renderFavorite() : initial ? this.renderSearching()
+            : noSearchResult ? this.renderNoResult() : this.renderGallery()
         }
       </Segment>
     );

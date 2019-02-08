@@ -6,18 +6,43 @@ import reducers from 'reducer';
 import { save, load } from 'redux-localstorage-simple';
 
 export default function (initialState, history) {
+  const localstorageStates = [
+    'root.favorites',
+    'root.isLoading',
+  ];
+
   const middlewares = [
     apiMiddleware,
     routerMiddleware(history),
     thunk,
     save({
-      states: ['root'],
+      states: localstorageStates,
+      namespace: 'giphy',
     }),
   ];
 
   const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);
   const store = createStoreWithMiddleware(reducers, load({
-    states: ['root'],
+    states: localstorageStates,
+    namespace: 'giphy',
+    preloadedState: {
+      root: {
+        initial: true,
+        data: [],
+        favorites: [],
+        prevSearchTerm: '',
+        searchTerm: '',
+        error: false,
+        isLoading: false,
+        hasMore: false,
+        loadedAll: false,
+        itemsPerPage: 25,
+        showProfile: false,
+        noSearchResult: false,
+        language: 'en',
+        rating: 'all',
+      },
+    },
   }), initialState);
 
   if (module.hot) {
