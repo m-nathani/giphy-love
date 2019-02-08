@@ -29,7 +29,7 @@ export default class Gallery extends React.Component {
     const {
       isLoading, data, actions, favorites, isFavoriteRoute,
     } = this.props;
-    const result = isFavoriteRoute ? favorites : data;
+    const result = isFavoriteRoute ? favorites : data || [];
     return (
       <MasonryLayout
         id="masonry-layout"

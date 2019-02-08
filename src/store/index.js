@@ -10,11 +10,15 @@ export default function (initialState, history) {
     apiMiddleware,
     routerMiddleware(history),
     thunk,
-    save(),
+    save({
+      states: ['root'],
+    }),
   ];
 
   const createStoreWithMiddleware = applyMiddleware(...middlewares)(createStore);
-  const store = createStoreWithMiddleware(reducers, load(), initialState);
+  const store = createStoreWithMiddleware(reducers, load({
+    states: ['root'],
+  }), initialState);
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
