@@ -58,7 +58,7 @@ export default class Gallery extends React.Component {
               key={i}
               style={{
                 width: `${item.images.fixed_width.width}px`,
-                height: `${+item.images.fixed_width.height + 120}px`,
+                height: `${+item.images.fixed_width.height + 50}px`,
                 lineHeight: `${10}px`,
                 color: 'white',
                 display: 'block',
