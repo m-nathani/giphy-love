@@ -30,6 +30,7 @@ https://giphy-love.herokuapp.com/
 │   ├── config          # contains configuration files for client-side
 │   ├── constant        # contains all constants, can be both server and client side
 │   ├── container       # wraps all redux containers
+│   ├── images          # folder with all images
 │   ├── middleware      # folder with all middlewares
 │   ├── reducer         # directory that contains all redux reducers
 │   └── service         # contains all the backend service logic
