@@ -4,7 +4,7 @@
 ## Run the simple demo
 https://giphy-love.herokuapp.com/
 
-![DEMO](https://im.ezgif.com/tmp/ezgif-1-a45f46b619c0.gif)
+![DEMO](https://giphy-love.herokuapp.com/)
 
 ## Pre-requisite
   node expected version: `"^6.14.0 || ^8.10.0 || >=9.10.0"`.
